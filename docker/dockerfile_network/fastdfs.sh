@@ -92,6 +92,7 @@ function init_client() {
     tail -f /dev/null
 }
 
+exec /usr/sbin/init
 case ${MODE} in
     tracker )
         start_tracker;;
