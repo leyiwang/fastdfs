@@ -1,17 +1,11 @@
 # centos 7
 FROM centos:7
-# 添加配置文件
-ADD conf/client.conf /etc/fdfs/
-ADD conf/http.conf /etc/fdfs/
-ADD conf/mime.types /etc/fdfs/
-ADD conf/storage.conf /etc/fdfs/
-ADD conf/tracker.conf /etc/fdfs/
+
+COPY conf etc/fdfs
 ADD fastdfs.sh /home
-ADD conf/nginx.conf /etc/fdfs/
-ADD conf/mod_fastdfs.conf /etc/fdfs
 
 # run
-RUN yum install git gcc gcc-c++ make automake autoconf libtool pcre pcre-devel zlib zlib-devel openssl-devel wget vim -y \
+RUN yum install git gcc gcc-c++ make automake autoconf libtool pcre pcre-devel zlib zlib-devel openssl-devel wget vim net-tools -y \
   &&    cd /usr/local/src  \
   &&    git clone https://github.com/happyfish100/libfastcommon.git --depth 1        \
   &&    git clone https://github.com/happyfish100/fastdfs.git --depth 1    \
@@ -30,7 +24,6 @@ RUN yum install git gcc gcc-c++ make automake autoconf libtool pcre pcre-devel z
   &&    ./configure --add-module=/usr/local/src/fastdfs-nginx-module/src/   \
   &&    make && make install  \
   &&    chmod +x /home/fastdfs.sh
-
 
 # export config
 VOLUME /etc/fdfs

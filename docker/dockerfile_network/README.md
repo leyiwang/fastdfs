@@ -10,12 +10,19 @@ Dockerfile 所需要的一些配置文件
 当然你也可以对这些文件进行一些修改  比如 storage.conf 里面的 bast_path 等相关
 
 ## 使用方法
-需要注意的是 你需要在运行容器的时候制定宿主机的ip 用参数 FASTDFS_IPADDR 来指定
-
-
+需要注意的是 你需要在运行容器的时候制定宿主机的ip 用参数 FASTDFS_IPADDRS 来指定
 
 ```
-docker run -d -e FASTDFS_IPADDR=192.168.1.234 -p 8888:8888 -p 22122:22122 -p 23000:23000 -p 8011:80 --name test-fast 镜像id/镜像名称
+MODE="tracker|storage|client"
+FASTDFS_IPADDRS="127.0.0.1,127.1.1.1,127.3.4.1"
+TRACKER_PORT="22122"
+STORAGE_PORT="23000"
+GROUP_ID="9"
+
+# ============== Usage ==============
+docker run -dit -e MODE=tracker --name tracker_1 <image_name:tag>
+docker run -dit -e FASTDFS_IPADDRS=172.17.0.11,172.17.0.10 -e MODE=storage -e GROUP_ID=2 --name storage_1 <image_name:tag>
+docker run -dit -e FASTDFS_IPADDRS=172.17.0.11,172.17.0.10 -e MODE=client -e GROUP_ID=2 --name client_1 <image_name:tag>
 ```
 
 
